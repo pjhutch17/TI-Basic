@@ -20,18 +20,16 @@
        180 IF DEAD OR HOUR=12 THEN END
        190 PRINT :L$(L,2):"Possible routes are :-"
        200 IF DIR(1)THEN PRINT "North ":
-       210 IF DIR(2)THEN PRINT "South ":
-       220 IF DIR(3)THEN PRINT "West ":
-       230 IF DIR(4)THEN PRINT "East ":
+       210 IF DIR(3)THEN PRINT "South ":
+       220 IF DIR(5)THEN PRINT "West ":
+       230 IF DIR(7)THEN PRINT "East ":
        240 PRINT :: INPUT ">":C1$ :: C$=""
-       250 FOR C=1 TO LEN(C1$)
-       260 CH$=SEG$(C$,C,1):: IF CH$>="A" AND CH$<="Z" THEN C$=C$+CHR$(ASC(C
-       H$)+32)ELSE C$=C$+CH$
-       270 NEXT C
-       280 REM
-       290 REM
+       270 FOR C=1 TO LEN(C1$)
+       280 CH$=SEG$(C1$,C,1):: IF CH$>="A" AND CH$<="Z" THEN C$=C$&CHR$(ASC(
+       CH$)+32)ELSE C$=C$&CH$
+       290 NEXT C
        300 OB$="" :: SPC=POS(C$," ",1)! Get object
-       310 IF SPC THEN OB$=SEG$(C$,SPC+1,LEN(C$)=SPC):: C$=SEG$(C$,1,SPC-1)
+       310 IF SPC THEN OB$=SEG$(C$,SPC+1,LEN(C$)-SPC):: C$=SEG$(C$,1,SPC-1)
        320 FOUND=0
        330 FOR C=1 TO 29
        340 IF SEG$(I$(C),1,LEN(C$))=C$ THEN FOUND=C :: C=29
@@ -77,11 +75,11 @@
        650 PRINT "You cannot go down here!" :: RETURN
        660 TIME=2 :: GOSUB 1690
        670 IF L=15 AND TST(1)AND(OB$="door" OR OB$="house")THEN PRINT "The d
-       oor opens with a creak." :: F$=SET$(10):: RETURN
-
-
+       oor opens with a creak." :: F$=SET$(10):: RETURN
        680 IF L=20 AND OB$="safe" THEN PRINT "You twiddle with it but the al
-       arm goes off, the owner   catches you." :: DEAD=1 :: RETURN
+       arm goes off, the owner   catches you." :: DEAD=1 :: RETURN
+
+
        690 IF L=28 AND TST(3)THEN PRINT "You insert the card and the gate op
        ens." :: F$=SET$(12):: RETURN
        700 PRINT "What is there to open?" :: RETURN
@@ -138,4 +136,108 @@
        1080 PRINT "You have nothing to give!" :: RETURN
        1090 TIME=1 :: GOSUB 1690
        1100 IF L=30 AND OB$="meat" AND TST(4)THEN PRINT "The dogs happily ch
-       ew at it totally ignoring you!" :: F$=SET$(11):: RETURN
+       ew at it totally ignoring you!" :: F$=SET$(11):: RETURN
+       1110 IF L=61 AND OB$="money" AND TST(5)THEN PRINT "The man accepts th
+       e money   and disappears." :: F$=SET$(15):: RETURN
+       1120 PRINT "Give what,silly?" :: RETURN
+       1130 TIME=3 :: GOSUB 1690
+       1140 IF L=31 AND OB$="glass" THEN PRINT "You break the glass with a  
+       nearby chair." :: F$=SET$(13):: RETURN
+       1150 IF L=35 AND OB$="glass" AND TST(7)THEN PRINT "You smash the case
+        with the axe, glass is everywhere!" :: F$=SET$(14):: RETURN
+       1160 PRINT "It doesn`t break!" :: RETURN
+       1170 RESTORE 1180 :: C=0
+       1180 DATA key,mirror,card,meat,money,jack,axe,crystal,rope
+       1190 REM
+       1200 PRINT "You are carrying :"
+       1210 FOR FLAG=1 TO 9 :: READ A$
+       1220 IF TST(FLAG)THEN PRINT TAB(5);"a ";A$ :: C=C+1
+       1230 NEXT FLAG
+       1240 IF C=0 THEN PRINT TAB(5);"Nothing"
+       1250 TIME=3 :: GOSUB 1690 :: RETURN
+       1270 REM >> Location Data <<
+       1280 DATA 00040002,A office with a cluttered   desk & pictures on the
+
+
+        walls.,00000103
+       1290 DATA On a balcony,00000200,On a balcony.,01000000,On a balcony w
+       ith stairs to the south.
+       1300 DATA 00100006,At the eye piece of the telescope.,00110500,Here i
+       s a large telescope.,00000008
+       1310 DATA "At the cliff egde, suddenly, the ground gives way & you fa
+       ll!",00120709,"In a car park, a car boot is open."
+       1320 DATA 00000810,"In the Observatory hall, some stairs going up.",0
+       5000911
+       1330 DATA Beside the telescope there`s a collection of fine mirrors.,
+       06001000,Here is a large telescope.
+       1340 DATA 08130000,On a steep road.,12140000,On a steep road.,1318001
+       5
+       1350 DATA "On a steep road, a house to the east.",00191416,A path lea
+       ding to a door.,00201517
+       1360 DATA "In the house`s hall, you see a coat.",00211600,"In the kit
+       chen, on the table is a dish of meat.",14220000
+       1370 DATA On a road.,15000000,In a beautiful garden of    roses.,1600
+       0021
+       1380 DATA "In the lounge, a picture of a woman hangs above the fire."
+       ,17002000,In the dining room.
+       1390 DATA 18240000,On a road.,00000024,On a road going towards a town
+       .,22372325,At the cross roads.
+       1400 DATA 00002426,On a east-west road.,00002527,On a road.,00382628,
+       "On a road, there`s a path to the south."
+       1410 DATA 00002729,At the gates of a Geology museum.,00002830,On a pa
+       th to the Museum.,00002933
+       1420 DATA "Near the gates, two watch   dogs bark ferociously at you."
+       ,00000032
+       1430 DATA Above a mineral display     there`s an axe in a glass   cas
+       e.,00343100,The display show cases some gems!
+       1440 DATA 00003034,In the museum`s entrance    hall.,32363300,There a
+       re hundreds of fossils here!
+       1450 DATA 00000036,At the entrance of the room there`s a glass case w
+       ith a crystal in it.,34003500
+       1460 DATA Here are lots of different  minerals & ores.,24390000,On a 
+       N-S road.,27400000,On a narrow track.,37410000
+       1470 DATA "There is a lorry here, the  driver kicks a punctured    ty
+       re.",38440000,"On a track, a wood on the   south."
+       1480 DATA 39470042,"On a road, a path leads to a wood.",00004143,On a
+        pathway.,00484244
+       1490 DATA In a dense wood.,40004345,"In a dense wood, you see    some
+        bluebells.",00504446,On a pathway.,00514500
+       1500 DATA At the edge of the wood.,41000000,On a road leading south.,
+       43300000,There are some Holly bushes here.
+       1510 DATA 00000050,"In the hut, you see a rope & some money in a jar.
+       ",45554951,There`s a hut to the west.
+       1520 DATA 46565000,There`s a ladder going down into a quarry.,0057000
+       0,"In a quarry, you see a ladder.",48600054
+       1530 DATA "In a wood, a river to the   south.",00615355,"On a pathway
+       , a bridge to the south.",50625456
+       1540 DATA On a pathway.,51005500,There`s a quarry to the east.,520000
+       58
+       1550 DATA "In a quarry, there`s a track here.",00635700,On a track go
+       ing south.,00000060,At the bank of a river.
+       1560 DATA 53005961,"At the river, there`s a bridge to the east.",5464
+       6062
+       1570 DATA "At a toll bridge, a man asks for payment.",55006100,"At th
+       e river side, you see a bridge."
+       1580 DATA 58650000,On a track.,61660000,"On a pathway, bridge to the 
+       north.",63700000,On a track.
+       1590 DATA 64000067,On a path.,00006668,On a pathway.,00006769,On a pa
+       thway.,00006870
+       1600 DATA On a path.,65726971,"At a circle of stones, a    druid in w
+       hite stops you."
+       1610 DATA 00737000,"You see standing stones 20ft high.",70000073,You 
+       find some stones here.
+       1620 DATA 71007200,"You are at the central alter stone."
+       1630 REM >> Instructions <<
+       1640 DATA north,south,west,east,up,down,climb,descend,open,unlock
+       1650 DATA enter,fix,mend,replace,take,get,attack,kill,destroy,examine
+       ,time
+       1660 DATA insert,place,put,pay,give,smash,break,inventory
+       1670 REM
+       1680 REM >> Time routine <<
+       1690 MINS=MINS+TIME
+       1700 IF MINS>=60 THEN HOUR=HOUR+1 :: MINS=MINS-60
+
+
+       1710 IF HOUR=12 THEN PRINT :"The evil Sauron is free and Earth is doo
+       med.":"You have failed."
+       1720 RETURN
